@@ -1,151 +1,154 @@
-<!DOCTYPE html>  
-<html lang="id">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Testimoni by Rullz</title>  
-<style>  
-:root {  
-  --bg: #0f172a;  
-  --card: #1e293b;  
-  --accent: #3b82f6;  
-  --text: #f1f5f9;  
-}  
-body {  
-  margin:0;  
-  font-family:'Poppins',sans-serif;  
-  background:var(--bg);  
-  color:var(--text);  
-}  
-.container {  
-  max-width:900px;  
-  margin:auto;  
-  padding:2rem;  
-  text-align:center;  
-}  
-.title {  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  gap:12px;  
-  font-size:2rem;  
-  font-weight:800;  
-  color:var(--accent);  
-  margin-bottom:1rem;  
-}  
-.desc {  
-  background: rgba(255, 255, 255, 0.05); /* kotak transparan */  
-  border: 1px solid rgba(255, 255, 255, 0.1);  
-  color: #94a3b8;  
-  max-width: 600px;  
-  margin: auto;  
-  margin-bottom: 2rem;  
-  font-size: 0.95rem;  
-  padding: 1rem 1.5rem;  
-  border-radius: 0.75rem;  
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);  
-}  
-.carousel {  
-  position:relative;  
-  background:var(--card);  
-  border-radius:1rem;  
-  overflow:hidden;  
-  box-shadow:0 0 20px rgba(0,0,0,0.4);  
-}  
-.carousel-item { display:none; }  
-.carousel-item.active { display:block; animation: fade 0.6s ease-in-out; }  
-.carousel img { width:100%; height:400px; object-fit:cover; border-radius:1rem; }  
-@keyframes fade { from{opacity:0; transform:scale(1.02);} to{opacity:1; transform:scale(1);} }  
-.controls {  
-  position:absolute;  
-  top:50%;  
-  width:100%;  
-  display:flex;  
-  justify-content:space-between;  
-  transform:translateY(-50%);  
-  padding:0 1rem;  
-  z-index:10;  
-}  
-.btn {  
-  background:rgba(0,0,0,0.5);  
-  border:none;  
-  color:white;  
-  font-size:2rem;  
-  padding:0.5rem 1rem;  
-  border-radius:9999px;  
-  cursor:pointer;  
-  transition:0.3s;  
-}  
-.btn:hover { background:rgba(0,0,0,0.7); }  
-.dots { display:flex; justify-content:center; gap:8px; margin-top:1rem; flex-wrap:wrap; }  
-.dot { width:12px; height:12px; background:#64748b; border-radius:50%; cursor:pointer; transition:0.3s; }  
-.dot.active { background:var(--accent); }  
-</style>  
-</head>  
-<body>  
-<div class="container">  
-  <div class="title">  
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="40" height="40">  
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8h4l2-3h6l2 3h4v12H3V8z"/>  
-      <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="2" fill="none"/>  
-    </svg>  
-    Testimoni by Rullz  
-  </div>  
-  <p class="desc">  
-    Bukti nyata kepercayaan customer terhadap layanan jual beli Rullz.<br>  
-    Scroll foto-fotonya untuk lihat testimoni asli.  
-  </p>  
-  
-  <div class="carousel">  
-    <div class="controls">  
-      <button class="btn" id="prevBtn">‹</button>  
-      <button class="btn" id="nextBtn">›</button>  
-    </div>  
-  </div>  
-  <div class="dots"></div>  
-</div>  
-  
-<script>  
-const carousel = document.querySelector('.carousel');  
-const dotsContainer = document.querySelector('.dots');  
-let current = 0;  
-let items = [];  
-  
-// load foto dari API testi  
-async function loadTesti(){  
-  const res = await fetch('/api/testi');  
-  const images = await res.json();  
-  
-  images.forEach((src,i)=>{  
-    const div = document.createElement('div');  
-    div.className = 'carousel-item'+(i===0?' active':'');  
-    div.innerHTML = `<img src="${src}" alt="Testimoni ${i+1}">`;  
-    carousel.appendChild(div);  
-  
-    const dot = document.createElement('div');  
-    dot.className = 'dot'+(i===0?' active':'');  
-    dot.addEventListener('click', ()=> showItem(i));  
-    dotsContainer.appendChild(dot);  
-  });  
-  items = document.querySelectorAll('.carousel-item');  
-}  
-  
-function showItem(index){  
-  current = index;  
-  items.forEach((item,i)=>item.classList.toggle('active',i===index));  
-  document.querySelectorAll('.dot').forEach((dot,i)=>dot.classList.toggle('active',i===index));  
-}  
-  
-document.getElementById('prevBtn').addEventListener('click', ()=>{  
-  showItem((current-1+items.length)%items.length);  
-});  
-document.getElementById('nextBtn').addEventListener('click', ()=>{  
-  showItem((current+1)%items.length);  
-});  
-  
-setInterval(()=>{ showItem((current+1)%items.length); }, 4000);  
-  
-loadTesti();  
-</script>  
-</body>  
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimoni by Rullz</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --accent: #3b82f6;
+  --text: #f1f5f9;
+}
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.container {
+  max-width:900px;
+  margin:auto;
+  padding:2rem;
+  text-align:center;
+}
+.title {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-size:2rem;
+  font-weight:800;
+  color:var(--accent);
+  margin-bottom:1rem;
+}
+.desc {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.carousel {
+  position:relative;
+  background:var(--card);
+  border-radius:1rem;
+  overflow:hidden;
+  box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+.carousel-item { display:none; }
+.carousel-item.active { display:block; animation: fade 0.6s ease-in-out; }
+.carousel img { width:100%; height:400px; object-fit:cover; border-radius:1rem; }
+@keyframes fade { from{opacity:0; transform:scale(1.02);} to{opacity:1; transform:scale(1);} }
+.controls {
+  position:absolute;
+  top:50%;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  transform:translateY(-50%);
+  padding:0 1rem;
+  z-index:10;
+}
+.btn {
+  background:rgba(0,0,0,0.5);
+  border:none;
+  color:white;
+  font-size:2rem;
+  padding:0.5rem 1rem;
+  border-radius:9999px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.btn:hover { background:rgba(0,0,0,0.7); }
+.dots { display:flex; justify-content:center; gap:8px; margin-top:1rem; flex-wrap:wrap; }
+.dot { width:12px; height:12px; background:#64748b; border-radius:50%; cursor:pointer; transition:0.3s; }
+.dot.active { background:var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="title">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="40" height="40">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8h4l2-3h6l2 3h4v12H3V8z"/>
+      <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+    </svg>
+    Testimoni by Rullz
+  </div>
+  <p class="desc">
+    Bukti nyata kepercayaan customer terhadap layanan jual beli Rullz.<br>
+    Scroll foto-fotonya untuk lihat testimoni asli.
+  </p>
+
+  <div class="carousel">
+    <div class="controls">
+      <button class="btn" id="prevBtn">‹</button>
+      <button class="btn" id="nextBtn">›</button>
+    </div>
+  </div>
+  <div class="dots"></div>
+</div>
+
+<script>
+const carousel = document.querySelector('.carousel');
+const dotsContainer = document.querySelector('.dots');
+let current = 0;
+let items = [];
+
+// load foto dari API testi
+async function loadTesti(){
+  const res = await fetch('/api/testi');
+  const images = await res.json();
+
+  images.forEach((img,i)=>{
+    const div = document.createElement('div');
+    div.className = 'carousel-item'+(i===0?' active':'');
+    div.innerHTML = `<img src="${img.url}" alt="${img.name}">`;
+    carousel.appendChild(div);
+
+    const dot = document.createElement('div');
+    dot.className = 'dot'+(i===0?' active':'');
+    dot.addEventListener('click', ()=> showItem(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  items = document.querySelectorAll('.carousel-item');
+}
+
+function showItem(index){
+  current = index;
+  items.forEach((item,i)=>item.classList.toggle('active',i===index));
+  document.querySelectorAll('.dot').forEach((dot,i)=>dot.classList.toggle('active',i===index));
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  showItem((current-1+items.length)%items.length);
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  showItem((current+1)%items.length);
+});
+
+setInterval(()=>{ 
+  if(items.length) showItem((current+1)%items.length); 
+}, 4000);
+
+loadTesti();
+</script>
+</body>
 </html>
